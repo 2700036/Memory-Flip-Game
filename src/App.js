@@ -52,6 +52,7 @@ export default function App() {
     }, 800)}
     if(matched.length*2 === cards.length){
       setTimeout(() => {
+        setCards(preparedCards())
         setOpened([])
         setMatched([])
         setMoves(0)
