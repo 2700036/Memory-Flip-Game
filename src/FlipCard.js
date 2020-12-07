@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default function FlipCard({card}) {
+export default function FlipCard({card, isFlipped, flipCard}) {
   return (
-    <div className="flip-card flipped">
+    <div className={`flip-card ${isFlipped ? 'flipped' : ''}`} 
+    onClick={!isFlipped ? flipCard : null}>
        <div className="inner">
         <div className="front">
           <img

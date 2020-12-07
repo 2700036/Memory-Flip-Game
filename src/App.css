@@ -1,18 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+@keyframes move-twink {
+  from { 
+    right: -1500px;
+    top: -1500px;  
+  }
+ to { 
+  right: 0px;
+  top: 0px; 
+ }
+}
 
 * {
   box-sizing: border-box;
 }
 
 body {
-  background: #19323a;
+  background: url('./images/stars.png') top center #000;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 50px;
   line-height: 1;
-  font-family: 'Patrick Hand', sans-serif;
+  font-family: 'Russo One', sans-serif;
+}
+body::before {
+  content: '';
+  position: fixed;
+    width: 300%;
+    height: 300%;
+    display: block;
+  background: url('./images/twinkling.png') top center;
+  
+  z-index: -1;
+  animation: move-twink 70s linear infinite;
 }
 
 p {
@@ -29,6 +51,21 @@ p strong {
   color: #777;
 }
 
+.stars, .twinkling {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+.stars {
+  
+}
+.twinkling {
+
+}
+
+
 .cards {
   display: grid;
   grid-template: repeat(3, 1fr) / repeat(4, 1fr);
@@ -42,8 +79,7 @@ p strong {
   cursor: pointer;
   background: none;
   border: none;
-  outline: none;
-  font-family: 'Patrick Hand', sans-serif;
+  outline: none;  
   overflow: hidden;
   border-radius: 8px;
 }

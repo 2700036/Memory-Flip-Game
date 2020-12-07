@@ -1,7 +1,7 @@
-import shuffle from 'lodash.shuffle';
-import React from 'react';
-import './App.css';
+import React, { useEffect, useState } from 'react';
 import FlipCard from './FlipCard';
+import shuffle from 'lodash.shuffle';
+import './App.css';
 
 
 const cards = [
@@ -15,8 +15,7 @@ const cards = [
   { id: 14, name: 'Han Solo' },
   { id: 21, name: 'Palpatine' },
   { id: 22, name: 'Boba Fett' },
-  { id: 5, name: 'Leia Organa' },
-  { id: 10, name: 'Obi-Wan Kenobi' },
+  { id: 5, name: 'Leia Organa' }, 
   { id: 11, name: 'Anakin Skywalker' },
   { id: 32, name: 'Qui-Gon' },
   { id: 36, name: 'Jar Jar Binks' },
@@ -29,11 +28,52 @@ const preparedCards = () => {
 }
 
 export default function App() {
+  const [cards, setCards] = useState([])
+  const [opened, setOpened] = useState([]);
+  const [matched, setMatched] = useState([]);
+  const [moves, setMoves] = useState(0)
+
+  const flipCard = (index) => {    
+    setOpened(opened => [...opened, index])
+    setMoves(moves => ++moves)
+  };
+
+  useEffect(() => {
+    setCards(preparedCards())    
+  }, []);
+
+  useEffect(()=> {
+    if(opened.length === 2){
+      if(cards[opened[0]].id === cards[opened[1]].id){
+        setMatched(matched => [...matched, cards[opened[0]].id])
+      }
+      setTimeout(() => {
+      setOpened([])
+    }, 800)}
+    if(matched.length*2 === cards.length){
+      setTimeout(() => {
+        setOpened([])
+        setMatched([])
+        setMoves(0)
+      }, 2000)
+    }
+  }, [opened])
+
   return <div className="app">
+    <p>
+      {moves} <strong>ходов</strong>
+    </p>
     <div className="cards">
-      {preparedCards().map((card, index) => (
-        <FlipCard card={card} key={card.id} />
-      ))}
+      {cards.map((card, index) => {
+        let isFlipped = false;
+        if(opened.includes(index) || matched.includes(card.id))isFlipped = true;
+        return <FlipCard 
+        card={card} 
+        key={index} 
+        isFlipped={isFlipped}
+        flipCard={()=>flipCard(index)} 
+        />
+      })}
     </div>
   </div>;
 }
