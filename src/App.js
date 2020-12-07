@@ -3,6 +3,14 @@ import FlipCard from './FlipCard';
 import shuffle from 'lodash.shuffle';
 import './App.css';
 
+function countMoves (moves){  
+  const endings = ['ов','','а','а','а','ов','ов','ов','ов','ов'];  
+  if(moves == 11 || moves == 12|| moves == 13 || moves == 14)
+  return `ходов`;
+  const lastNumber = moves.toString().slice(-1); 
+  return `ход${endings[lastNumber]}`
+}
+
 
 const cards = [
   { id: 35, name: 'Padmé Amidala' },
@@ -50,7 +58,7 @@ export default function App() {
       setTimeout(() => {
       setOpened([])
     }, 800)}
-    if(matched.length*2 === cards.length){
+    if(matched.length*2 === cards.length && cards.length > 0){
       setTimeout(() => {
         setCards(preparedCards())
         setOpened([])
@@ -60,9 +68,11 @@ export default function App() {
     }
   }, [opened])
 
+  
+
   return <div className="app">
     <p>
-      {moves} <strong>ходов</strong>
+    {moves} <strong>{countMoves(moves)}</strong>
     </p>
     <div className="cards">
       {cards.map((card, index) => {
